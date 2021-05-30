@@ -1,7 +1,13 @@
+# 7/4/21
 # Mul Kang
-# 17/2/21
-# Movie create class
+# TED 31 Assessment 
+# V1.0
+"""
+My project is making
+An ordering system for a take-away food shop
+"""
 
+# import the library
 from appJar import gui
 
 food_list = []
@@ -46,18 +52,27 @@ class Menu: # Movie = Menu
         display_string = '**********************\nTitle: %s\nRelease Date: %s\nGenre: %s\nRating: %s'%(self._title, self._release_date, self._genre, self._rating)
         return display_string'''
 
-# create movies in database
+# create food in database
         
 
-food_list.append(Menu('Cheese',14,'burger'))  
-food_list.append(Menu('Chicken',14,'burger'))  
-food_list.append(Menu('Beef',12,'burger'))  
-food_list.append(Menu('Fish',14,'burger'))  
+food_list.append(Menu('Cheese',14,'Burger'))  
+food_list.append(Menu('Chicken',14,'Burger'))  
+food_list.append(Menu('Beef',12,'Burger'))  
+food_list.append(Menu('Fish',14,'Burger')) 
+food_list.append(Menu('Water',1,'Drink'))  
+food_list.append(Menu('Milk',14,'Drink'))  
+food_list.append(Menu('Coke',12,'Drink'))  
+food_list.append(Menu('Orange',14,'Drink'))  
+food_list.append(Menu('Chips',14,'Sides'))  
+food_list.append(Menu('Orange',14,'Sides'))  
+food_list.append(Menu('Salad',12,'Sides'))  
+food_list.append(Menu('Nugget',14,'Sides'))  
 
 
 
 class Gui:
     def __init__(self):
+        # create a GUI variable called app
         app = gui("Fast food menu", "800x800")
         app.setBg("orange")
         app.setFont(17)
@@ -67,18 +82,22 @@ class Gui:
         app.setLabelBg("title", "blue")
         app.setLabelFg("title", "orange")
         
-        app.addLabel("main", "Movies")
+        app.addLabel("main", "Menu")
         app.setLabelBg("main", "white")
         
         def press(button):
             if button == 'Quit':
                 app.stop()
-            if button == '5':
-                five_star()
-            if button == '4':
-                four_star()
-            if button == 'action':
-                action()  
+            if button == 'Drink':
+                # app.hideButton("Drink")
+                Drink1(self)
+            if button == 'Sides':
+                Sides(self)  
+            if button == "Burger":
+                Burger(self)
+            if button == "Back":
+                app.showFrame("Button_frame")
+                app.hideFrame("Table_frame")
             else:
                 pass
         
@@ -87,65 +106,67 @@ class Gui:
         def start(button):
             """If start is pressed remove the start button and show other buttons."""
             app.removeButton("Start")
-            app.addButtons(['5', "4", "action","Quit"], press)
+            app.showFrame("Button_frame")    
+            app.showLabel("LABEL")
+        
+        def get(actionButton):
+            print(actionButton)
+ 
+                   
+        def Sides(self): 
+            food_array.clear()
+            for x in food_list:
+                if x.get_food_type() == "Sides":
+                    food_array.append([x.get_name(),x.get_price(),x.get_food_type()])            
+            app.replaceAllTableRows("food table", food_array, )
+            app.hideFrame("Button_frame")
+            app.showFrame("Table_frame") 
+        
+                             
+        def Drink1(self):
+            
+            food_array.clear()
+            for x in food_list:
+                if x.get_food_type() == "Drink":
+                    food_array.append([x.get_name(),x.get_price(),x.get_food_type()])            
+            app.replaceAllTableRows("food table", food_array, )
+            app.hideFrame("Button_frame")
+            app.showFrame("Table_frame")
+         
+        def Burger(self):
+            food_array.clear()
+            for x in food_list:
+                if x.get_food_type() == "Burger":
+                    food_array.append([x.get_name(),x.get_price(),x.get_food_type()])
+            app.replaceAllTableRows("food table", food_array, )
+            app.hideFrame("Button_frame")
             app.showFrame("Table_frame")         
-        
-        
-        def action():
-            app.removeTable("movie table")
-            movie_array.clear()
-            movie_array.append(['Title','Genre','Release Date','Rating'])
-            for movie in movies:
-                if movie.get_genre() == 'Action':
-                    movie_array.append([movie.get_title(),movie.get_genre(),movie.get_release_date(),movie.get_rating()])
-            app.addTable("food table", food_array)
+         
             # movie table = food table / movie_array = food_array
         
         def get_array(self):
             food_array = [['Name','Price','Type',]]
             for x in food_list:
-                food_array.append([x.get_name(),x.get_price(),x.get_food_type()])
+                if x.get_food_type() == "Burger":
+                    food_array.append([x.get_name(),x.get_price(),x.get_food_type()])
             return food_array
         
-
-                    
-        def endScreen():
-            pass
-        
-        
  
-            
+        app.addLabel("LABEL", "lol")    
+        app.addButton('Start', start) 
         
-        def five_star():
-            movie_array.clear()
-            movie_array.append(['Title','Genre','Release Date','Rating'])
-            for movie in movies:
-                if movie.get_rating() > 4:
-                    movie_array.append([movie.get_title(),movie.get_genre(),movie.get_release_date(),movie.get_rating()])
-        
-        def four_star():
-            app.removeAllWidgets()
-            movie_array.clear()
-            movie_array.append(['Title','Genre','Release Date','Rating'])
-            for movie in movies:
-                if movie.get_rating() > 3:
-                    movie_array.append([movie.get_title(),movie.get_genre(),movie.get_release_date(),movie.get_rating()])
-            app.addLabel("title", "Welcome to movie")
-            app.setLabelFg("title", "white")
-            app.addLabel("main", "Movies")
-            app.setLabelBg("main", "white")         
-            app.addTable("movie table", movie_array)
-            app.addButtons(['5', "4", "action","Quit"], press)     
-            
-    
-            # create a GUI variable called app    
-        app.addButton('Start', start)
         food_array = get_array(self)
         with app.frame("Table_frame"):
-            app.addTable("movie table", food_array,action=press,actionButton="Get")   
-            
+            app.addTable("food table", food_array, action=get, actionButton="Get") 
+            app.addButton("Back", press)
+        
+        
+        with app.frame("Button_frame"):
+            app.addButtons(["Drink", "Sides","Burger","Quit"], press)
         app.hideFrame("Table_frame")
-
+        app.hideFrame("Button_frame")
+        app.hideLabel("LABEL")
+           
         # start the GUI
         app.go()
         self._app=app
@@ -160,9 +181,3 @@ class Gui:
 
 
 window = Gui()    
-    
-    
-    
-    
-    
-
